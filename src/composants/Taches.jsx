@@ -16,7 +16,18 @@ export default function Taches({etatTaches, utilisateur}) {
    )
  , [setTaches, uid]);
   
+ function supprimerTache(idTache) {
+  crudTaches.supprimerTache(utilisateur.uid, idTache).then(
+    () => {
+      setTaches(taches.filter(laTache => laTache.id !== idTache))
+    }
+  )
+}
 
+function basculerTache(idTache, completee) {
+  crudTaches.basculerTache(utilisateur.uid, idTache, completee)
+  
+}
   /**
    * Gérer le formulaire d'ajout de nouvelle tâche en appelant la méthode 
    * d'intégration Firestore appropriée, puis actualiser les tâches en faisant 
@@ -49,7 +60,7 @@ export default function Taches({etatTaches, utilisateur}) {
       </form>
       <div className="listeTaches">
         {
-          taches.map(tache => <Tache key={tache.id} {... tache} />)
+          taches.map(tache => <Tache key={tache.id} {... tache} supprimerTache={supprimerTache} basculerTache={basculerTache} />)
         }
       </div>
     </section>
